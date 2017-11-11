@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -63,6 +64,7 @@ public class NewsBean implements INews {
     }
     
     @Override
+    @RolesAllowed({"can_schedule_news", "can_publish_news"})
     public void scheduleNews(Long newsId) {
         TimerConfig tf = new TimerConfig(newsId, false);
         timerService.createIntervalTimer(new Date(), 3000, tf);

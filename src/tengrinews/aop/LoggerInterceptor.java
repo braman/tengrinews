@@ -25,7 +25,6 @@ public class LoggerInterceptor {
     public Object intercept(InvocationContext ctx) throws Exception {
         Object obj = ctx.getTarget();
         Method method = ctx.getMethod();
-
         String username = Optional.ofNullable(sessCtx.getCallerPrincipal()).map(p -> p.getName()).orElse("unknown");
         String called = obj.getClass().getSimpleName() + "." + method.getName();
         
