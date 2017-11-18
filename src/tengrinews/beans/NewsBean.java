@@ -15,6 +15,8 @@ import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.interceptor.Interceptors;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,6 +31,7 @@ import tengrinews.dto.NewsDTO;
 @Stateless
 @Path("/news")
 @Loggable(true)
+@WebService
 @Interceptors({LoggerInterceptor.class})
 public class NewsBean implements INews {
 
@@ -53,6 +56,7 @@ public class NewsBean implements INews {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/top10")
+    @WebMethod
     public List<NewsDTO> getTop10News() {
         String username = Optional.ofNullable(ctx.getCallerPrincipal()).map(p -> p.getName()).orElse("unknown");
 
@@ -65,6 +69,7 @@ public class NewsBean implements INews {
     
     @Override
     @RolesAllowed({"can_schedule_news", "can_publish_news"})
+    @WebMethod
     public void scheduleNews(Long newsId) {
         TimerConfig tf = new TimerConfig(newsId, false);
         timerService.createIntervalTimer(new Date(), 3000, tf);
