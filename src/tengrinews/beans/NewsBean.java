@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -16,7 +17,6 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.interceptor.Interceptors;
 import javax.jws.WebMethod;
-import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,7 +31,7 @@ import tengrinews.dto.NewsDTO;
 @Stateless
 @Path("/news")
 @Loggable(true)
-@WebService
+//@WebService
 @Interceptors({LoggerInterceptor.class})
 public class NewsBean implements INews {
 
@@ -56,13 +56,11 @@ public class NewsBean implements INews {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/top10")
-    @WebMethod
+    @PermitAll
     public List<NewsDTO> getTop10News() {
         String username = Optional.ofNullable(ctx.getCallerPrincipal()).map(p -> p.getName()).orElse("unknown");
 
         log.info("username is " + username);
-        
-        itself.scheduleNews(1L);
         
         return someNews;
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>    
+    <persistence-unit name="entityManager">
+        <jta-data-source>java:jboss/datasources/TengrinewsDS</jta-data-source>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <properties> 
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
+        </properties>
+    </persistence-unit>
+</persistence>
